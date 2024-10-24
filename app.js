@@ -1,5 +1,4 @@
-// Initialisation du provider pour le réseau Base
-const provider = new ethers.providers.JsonRpcProvider('https://mainnet.base.org');
+const provider = new ethers.providers.InfuraProvider('base', '9b4b9f045ee644418316951f6a1451c1');
 
 // Ton code pour interagir avec le contrat
 let signer;
