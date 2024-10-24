@@ -1,3 +1,4 @@
+// Fonction pour récupérer des données d'Alchemy via le proxy
 async function getAlchemyData() {
     try {
         const response = await fetch('/api/alchemyProxy', {
@@ -5,8 +6,9 @@ async function getAlchemyData() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ action: 'getBlockNumber' }) // tu peux personnaliser le body
+            body: JSON.stringify({ action: 'getBlockNumber' }) // Body personnalisé si besoin
         });
+
         const data = await response.json();
         console.log('Current block number:', data.blockNumber);
     } catch (error) {
@@ -14,78 +16,58 @@ async function getAlchemyData() {
     }
 }
 
-getAlchemyData();
-
-
-
-// Remplace 'YOUR_ALCHEMY_API_KEY' par la clé d'API Alchemy obtenue dans le tableau de bord
-// Ton code pour interagir avec le contrat
-let signer;
-let tamagotchiContract;
-
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-await provider.send("eth_requestAccounts", []); // Demande à Metamask de se connecter
-const signer = provider.getSigner();
-
-
-const contractAddress = "0xD48Cb715181E186a9ADDcbd3aadd4A11F24731E2";  // Ton adresse de contrat
-const abi = [
-    "function feed() public",
-    "function pet() public",
-    "function walk() public",
-    "function getStatus() public view returns (string)"
-];
-
-// Vérifie si Metamask est installé
-async function checkMetamaskInstalled() {
-    if (typeof window.ethereum === 'undefined') {
-        alert('Please install MetaMask!');
-        return false;
-    }
-    return true;
-}
-
-// Connecter le wallet si tu utilises Metamask
+// Fonction pour vérifier Metamask et initialiser le provider
 async function connectWallet() {
     try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum); // Fournisseur via Metamask
         await provider.send("eth_requestAccounts", []); // Demande de connexion Metamask
-        signer = provider.getSigner(); // Utilise le signer pour signer des transactions
-        tamagotchiContract = new ethers.Contract(contractAddress, abi, signer);
+        const signer = provider.getSigner(); // Récupérer le signer après connexion
 
-        // Après connexion, tu peux faire d'autres actions
+        const tamagotchiContract = new ethers.Contract(contractAddress, abi, signer); // Initialisation du contrat
+        console.log('Wallet connecté et contrat initialisé');
+
+        // Charger le statut du Tamagotchi
+        updateStatus(tamagotchiContract);
     } catch (error) {
         console.error("Error connecting wallet: ", error);
     }
 }
 
 // Fonction pour nourrir le Tamagotchi
-async function feedTamagotchi() {
+async function feedTamagotchi(tamagotchiContract) {
     try {
-        const tx = await tamagotchiContract.feed();
+        const tx = await tamagotchiContract.feed(); // Appel à la fonction feed du contrat
         await tx.wait();
-        updateStatus();
+        updateStatus(tamagotchiContract);
     } catch (error) {
         console.error("Error feeding Tamagotchi: ", error);
     }
 }
 
 // Fonction pour mettre à jour le statut du Tamagotchi
-async function updateStatus() {
+async function updateStatus(tamagotchiContract) {
     try {
-        const status = await tamagotchiContract.getStatus();
-        document.getElementById('status').textContent = status;
+        const status = await tamagotchiContract.getStatus(); // Récupérer le statut actuel
+        document.getElementById('status').textContent = status; // Mettre à jour le DOM
     } catch (error) {
         console.error("Error getting status: ", error);
     }
 }
 
-// Écouteurs d'événements pour les boutons
-document.getElementById('feed-btn').addEventListener('click', feedTamagotchi);
+// Écouteur d'événements pour le bouton de connexion
+document.getElementById('connect-wallet-btn').addEventListener('click', connectWallet);
 
-// Vérifie si Metamask est disponible au chargement de la page
+// Exemple d'écouteur d'événements pour nourrir le Tamagotchi
+document.getElementById('feed-btn').addEventListener('click', async () => {
+    const tamagotchiContract = await connectWallet(); // Assure-toi que le contrat est bien initialisé
+    feedTamagotchi(tamagotchiContract);
+});
+
+// Vérifier si Metamask est installé au chargement de la page
 window.onload = async () => {
-    if (await checkMetamaskInstalled()) {
+    if (typeof window.ethereum !== 'undefined') {
         console.log('Metamask is installed');
+    } else {
+        alert('Please install MetaMask!');
     }
 };
-
