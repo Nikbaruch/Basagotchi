@@ -1,22 +1,20 @@
-async function fetchAlchemyData() {
-  try {
-    const response = await fetch('/api/alchemyProxy', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ /* tes paramètres ici */ }),
-    });
-
-    const data = await response.json();
-    console.log('Données reçues:', data);
-  } catch (error) {
-    console.error('Erreur lors de la requête:', error);
-  }
+async function getAlchemyData() {
+    try {
+        const response = await fetch('/api/alchemyProxy', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action: 'getBlockNumber' }) // tu peux personnaliser le body
+        });
+        const data = await response.json();
+        console.log('Current block number:', data.blockNumber);
+    } catch (error) {
+        console.error('Erreur lors de la requête:', error);
+    }
 }
 
-fetchAlchemyData();
-
+getAlchemyData();
 
 
 
