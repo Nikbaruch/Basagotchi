@@ -6,6 +6,11 @@ const provider = new ethers.providers.JsonRpcProvider('https://base-mainnet.g.al
 let signer;
 let tamagotchiContract;
 
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+await provider.send("eth_requestAccounts", []); // Demande à Metamask de se connecter
+const signer = provider.getSigner();
+
+
 const contractAddress = "0xD48Cb715181E186a9ADDcbd3aadd4A11F24731E2";  // Ton adresse de contrat
 const abi = [
     "function feed() public",
