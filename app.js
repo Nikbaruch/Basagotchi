@@ -1,5 +1,7 @@
-const provider = new ethers.providers.InfuraProvider('base', 'iJrq7VlAQ2z9IBpzU6L55SAnZGuiycSiFFpuw9p2A2Efdof9pJSy/Q');
+// Initialisation du provider via Alchemy pour le réseau Base
+const provider = new ethers.providers.JsonRpcProvider('https://base-mainnet.g.alchemy.com/v2/DawI2TgDeyVcz8cH_OE6WZ6RQvKxPRE5');
 
+// Remplace 'YOUR_ALCHEMY_API_KEY' par la clé d'API Alchemy obtenue dans le tableau de bord
 // Ton code pour interagir avec le contrat
 let signer;
 let tamagotchiContract;
