@@ -3,30 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basagotchi</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Blockchain Interaction</title>
 </head>
 <body>
-    <h1>Take Care of the Basagotchi</h1>
-
-    <!-- Bouton pour se connecter au wallet -->
-    <button id="connect-wallet-btn">Connect Wallet</button>
-
-    <!-- Pictogramme du chien -->
-    <div id="dog">
-        <span id="dog-face">🐕</span>
-    </div>
-
-    <div id="tamagotchi-status">
-        <h2>Status: <span id="status">Please connect your wallet...</span></h2>
-    </div>
+    <h1>Get Block Number</h1>
+    <button id="getBlockBtn">Get Current Block</button>
     
-    <div id="actions" style="display:none;">
-        <button id="feed-btn">Feed</button>
-        <button id="pet-btn">Pet</button>
-        <button id="walk-btn">Walk</button>
-    </div>
-
+    <!-- Charger ethers.js -->
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.4.0/dist/ethers.min.js"></script>
     <script src="app.js"></script>
 </body>
