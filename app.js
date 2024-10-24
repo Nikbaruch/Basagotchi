@@ -1,23 +1,24 @@
-// Importation d'ethers.js (assurez-vous que ethers.js est chargé dans votre HTML ou importé)
-const provider = new ethers.providers.JsonRpcProvider('https://base-mainnet.g.alchemy.com/v2/DawI2TgDeyVcz8cH_OE6WZ6RQvKxPRE5');
+async function fetchAlchemyData() {
+  try {
+    const response = await fetch('/api/alchemyProxy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ /* tes paramètres ici */ }),
+    });
 
-async function getBlockNumber() {
-    try {
-        const blockNumber = await provider.getBlockNumber();  // Récupère le numéro du dernier bloc sur la blockchain
-        console.log('Current block number: ', blockNumber);  // Affiche le numéro du bloc dans la console
-    } catch (error) {
-        console.error('Error fetching block number:', error);  // Gérer les erreurs en cas de problème
-    }
+    const data = await response.json();
+    console.log('Données reçues:', data);
+  } catch (error) {
+    console.error('Erreur lors de la requête:', error);
+  }
 }
 
-getBlockNumber();  // Appelle la fonction pour obtenir le numéro de bloc
+fetchAlchemyData();
 
 
 
-
-
-// Initialisation du provider via Alchemy pour le réseau Base
-const provider = new ethers.providers.JsonRpcProvider('https://base-mainnet.g.alchemy.com/v2/DawI2TgDeyVcz8cH_OE6WZ6RQvKxPRE5');
 
 // Remplace 'YOUR_ALCHEMY_API_KEY' par la clé d'API Alchemy obtenue dans le tableau de bord
 // Ton code pour interagir avec le contrat
