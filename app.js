@@ -1,4 +1,4 @@
-const provider = new ethers.providers.InfuraProvider('base', '9b4b9f045ee644418316951f6a1451c1');
+const provider = new ethers.providers.InfuraProvider('base', 'iJrq7VlAQ2z9IBpzU6L55SAnZGuiycSiFFpuw9p2A2Efdof9pJSy/Q');
 
 // Ton code pour interagir avec le contrat
 let signer;
