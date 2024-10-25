@@ -18,6 +18,9 @@ async function getAlchemyData() {
     }
 }
 
+const contractAddress = "0xD48Cb715181E186a9ADDcbd3aadd4A11F24731E2"; 
+
+
 // Fonction pour vérifier Metamask et initialiser le provider
 async function connectWallet() {
     try {
