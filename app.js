@@ -53,7 +53,8 @@ async function feedTamagotchi(tamagotchiContract) {
         const tx = await tamagotchiContract.feed();
         await tx.wait();
         document.getElementById('status').textContent = "Basagotchi feeded";
-        updateStatus(tamagotchiContract);
+        // Attendre 10 secondes avant de mettre à jour le statut général
+        setTimeout(() => updateStatus(tamagotchiContract), 10000);
     } catch (error) {
         console.error("Error feeding Tamagotchi: ", error);
     }
@@ -65,7 +66,8 @@ async function petTamagotchi(tamagotchiContract) {
         const tx = await tamagotchiContract.pet();
         await tx.wait();
         document.getElementById('status').textContent = "Basagotchi loved";
-        updateStatus(tamagotchiContract);
+        // Attendre 10 secondes avant de mettre à jour le statut général
+        setTimeout(() => updateStatus(tamagotchiContract), 10000);
     } catch (error) {
         console.error("Error petting Tamagotchi: ", error);
     }
@@ -77,7 +79,8 @@ async function walkTamagotchi(tamagotchiContract) {
         const tx = await tamagotchiContract.walk();
         await tx.wait();
         document.getElementById('status').textContent = "Basagotchi tired";
-        updateStatus(tamagotchiContract);
+        // Attendre 10 secondes avant de mettre à jour le statut général
+        setTimeout(() => updateStatus(tamagotchiContract), 10000);
     } catch (error) {
         console.error("Error walking Tamagotchi: ", error);
     }
