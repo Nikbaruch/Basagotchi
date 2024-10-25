@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+
 
 // Fonction pour récupérer des données d'Alchemy via le proxy
 async function getAlchemyData() {
