@@ -47,14 +47,39 @@ async function connectWallet() {
     }
 }
 
-// Fonction pour nourrir le Tamagotchi
+// Fonction pour nourrir le Tamagotchi avec un message de confirmation
 async function feedTamagotchi(tamagotchiContract) {
     try {
         const tx = await tamagotchiContract.feed();
         await tx.wait();
+        document.getElementById('status').textContent = "Basagotchi feeded";
         updateStatus(tamagotchiContract);
     } catch (error) {
         console.error("Error feeding Tamagotchi: ", error);
+    }
+}
+
+// Fonction pour caresser le Tamagotchi avec un message de confirmation
+async function petTamagotchi(tamagotchiContract) {
+    try {
+        const tx = await tamagotchiContract.pet();
+        await tx.wait();
+        document.getElementById('status').textContent = "Basagotchi loved";
+        updateStatus(tamagotchiContract);
+    } catch (error) {
+        console.error("Error petting Tamagotchi: ", error);
+    }
+}
+
+// Fonction pour promener le Tamagotchi avec un message de confirmation
+async function walkTamagotchi(tamagotchiContract) {
+    try {
+        const tx = await tamagotchiContract.walk();
+        await tx.wait();
+        document.getElementById('status').textContent = "Basagotchi tired";
+        updateStatus(tamagotchiContract);
+    } catch (error) {
+        console.error("Error walking Tamagotchi: ", error);
     }
 }
 
@@ -71,10 +96,20 @@ async function updateStatus(tamagotchiContract) {
 // Écouteur d'événements pour le bouton de connexion
 document.getElementById('connect-wallet-btn').addEventListener('click', connectWallet);
 
-// Écouteur d'événements pour nourrir le Tamagotchi
+// Écouteurs d'événements pour les actions avec le Tamagotchi
 document.getElementById('feed-btn').addEventListener('click', async () => {
     const tamagotchiContract = new ethers.Contract(contractAddress, abi, new ethers.providers.Web3Provider(window.ethereum).getSigner());
     feedTamagotchi(tamagotchiContract);
+});
+
+document.getElementById('pet-btn').addEventListener('click', async () => {
+    const tamagotchiContract = new ethers.Contract(contractAddress, abi, new ethers.providers.Web3Provider(window.ethereum).getSigner());
+    petTamagotchi(tamagotchiContract);
+});
+
+document.getElementById('walk-btn').addEventListener('click', async () => {
+    const tamagotchiContract = new ethers.Contract(contractAddress, abi, new ethers.providers.Web3Provider(window.ethereum).getSigner());
+    walkTamagotchi(tamagotchiContract);
 });
 
 // Vérifier si Metamask est installé au chargement de la page
