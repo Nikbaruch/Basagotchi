@@ -6,7 +6,7 @@ async function getAlchemyData() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ action: 'getBlockNumber' }) // Body personnalisé si besoin
+            body: JSON.stringify({ action: 'getBlockNumber' })
         });
 
         const data = await response.json();
@@ -27,15 +27,18 @@ const abi = [
 // Fonction pour vérifier Metamask et initialiser le provider
 async function connectWallet() {
     try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum); // Fournisseur via Metamask
-        await provider.send("eth_requestAccounts", []); // Demande de connexion Metamask
-        const signer = provider.getSigner(); // Récupérer le signer après connexion
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
 
-        const tamagotchiContract = new ethers.Contract(contractAddress, abi, signer); // Initialisation du contrat
+        const tamagotchiContract = new ethers.Contract(contractAddress, abi, signer);
         console.log('Wallet connecté et contrat initialisé');
 
         // Afficher les boutons d'action après connexion
         document.getElementById('actions').style.display = 'block';
+
+        // Afficher le message de connexion réussie
+        document.getElementById('status').textContent = "Wallet connected";
 
         // Charger le statut du Tamagotchi
         updateStatus(tamagotchiContract);
@@ -47,7 +50,7 @@ async function connectWallet() {
 // Fonction pour nourrir le Tamagotchi
 async function feedTamagotchi(tamagotchiContract) {
     try {
-        const tx = await tamagotchiContract.feed(); // Appel à la fonction feed du contrat
+        const tx = await tamagotchiContract.feed();
         await tx.wait();
         updateStatus(tamagotchiContract);
     } catch (error) {
@@ -58,8 +61,8 @@ async function feedTamagotchi(tamagotchiContract) {
 // Fonction pour mettre à jour le statut du Tamagotchi
 async function updateStatus(tamagotchiContract) {
     try {
-        const status = await tamagotchiContract.getStatus(); // Récupérer le statut actuel
-        document.getElementById('status').textContent = status; // Mettre à jour le DOM
+        const status = await tamagotchiContract.getStatus();
+        document.getElementById('status').textContent = status;
     } catch (error) {
         console.error("Error getting status: ", error);
     }
