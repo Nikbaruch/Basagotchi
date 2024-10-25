@@ -1,5 +1,3 @@
-
-
 // Fonction pour récupérer des données d'Alchemy via le proxy
 async function getAlchemyData() {
     try {
@@ -26,7 +24,6 @@ const abi = [
     "function getStatus() public view returns (string)"
 ];
 
-
 // Fonction pour vérifier Metamask et initialiser le provider
 async function connectWallet() {
     try {
@@ -36,6 +33,9 @@ async function connectWallet() {
 
         const tamagotchiContract = new ethers.Contract(contractAddress, abi, signer); // Initialisation du contrat
         console.log('Wallet connecté et contrat initialisé');
+
+        // Afficher les boutons d'action après connexion
+        document.getElementById('actions').style.display = 'block';
 
         // Charger le statut du Tamagotchi
         updateStatus(tamagotchiContract);
@@ -68,9 +68,9 @@ async function updateStatus(tamagotchiContract) {
 // Écouteur d'événements pour le bouton de connexion
 document.getElementById('connect-wallet-btn').addEventListener('click', connectWallet);
 
-// Exemple d'écouteur d'événements pour nourrir le Tamagotchi
+// Écouteur d'événements pour nourrir le Tamagotchi
 document.getElementById('feed-btn').addEventListener('click', async () => {
-    const tamagotchiContract = await connectWallet(); // Assure-toi que le contrat est bien initialisé
+    const tamagotchiContract = new ethers.Contract(contractAddress, abi, new ethers.providers.Web3Provider(window.ethereum).getSigner());
     feedTamagotchi(tamagotchiContract);
 });
 
